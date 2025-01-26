@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import Particles from "react-particles";
-import { loadSlim } from "tsparticles-slim"; 
-import "./partiles.css"; 
+import { loadSlim } from "tsparticles-slim";
 
 export default function Particles_back() {
   const particlesInit = useCallback(async (engine) => {
@@ -9,12 +8,11 @@ export default function Particles_back() {
   }, []);
 
   const particlesLoaded = useCallback(async (container) => {
-    console.log(container); 
+    console.log(container);
   }, []);
 
   return (
-    <div className="particles-wrapper">
-     
+    <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
       <Particles
         id="tsparticles"
         init={particlesInit}
