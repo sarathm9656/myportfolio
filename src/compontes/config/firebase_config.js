@@ -4,7 +4,8 @@ import { getDatabase } from "firebase/database";
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAxJuT_ium2THI3Yo_za7UQf8W6f9Ja8es",
-  authDomain: "https://myresume-99086-default-rtdb.firebaseio.com/",
+  authDomain: "myresume-99086.firebaseapp.com",
+  databaseURL: "https://myresume-99086-default-rtdb.firebaseio.com",
   projectId: "myresume-99086",
   storageBucket: "myresume-99086.firebasestorage.app",
   messagingSenderId: "944604955901",

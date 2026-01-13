@@ -1,83 +1,135 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import XIcon from "@mui/icons-material/X";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import EmailIcon from '@mui/icons-material/Email';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import Particles_back from "./ParticlesBackground"; // Import Particles_back
+import Particles_back from "./ParticlesBackground";
+import 'animate.css';
+
+const Typewriter = ({ words, typingSpeed = 150, deletingSpeed = 100, pauseTime = 2000 }) => {
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [blink, setBlink] = useState(true);
+
+  useEffect(() => {
+    if (index === words.length) {
+      setIndex(0);
+      return;
+    }
+
+    if (subIndex === words[index].length + 1 && !isDeleting) {
+      setTimeout(() => setIsDeleting(true), pauseTime);
+      return;
+    }
+
+    if (subIndex === 0 && isDeleting) {
+      setIsDeleting(false);
+      setIndex((prev) => (prev + 1) % words.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (isDeleting ? -1 : 1));
+    }, isDeleting ? deletingSpeed : typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [subIndex, index, isDeleting, words, typingSpeed, deletingSpeed, pauseTime]);
+
+  // Blinking cursor effect
+  useEffect(() => {
+    const blinkTimeout = setInterval(() => {
+      setBlink((prev) => !prev);
+    }, 500);
+    return () => clearInterval(blinkTimeout);
+  }, []);
+
+  return (
+    <span className="text-green-400">
+      {words[index].substring(0, subIndex)}
+      <span className={`${blink ? "opacity-100" : "opacity-0"}`}>|</span>
+    </span>
+  );
+};
 
 export default function WelcomeSection() {
+  const roles = [
+    "MERN Stack Developer.",
+    "Frontend Developer.",
+    "Backend Developer.",
+    "Web Designer."
+  ];
+
   return (
     <>
-      {/* Section with particles background */}
-      <div className="relative h-screen w-full bg-black text-white">
-        {/* Particles Background */}
+      {/* Section with particles background - Full Screen Cover */}
+      <div className="relative h-screen w-full bg-[#1a1a1a] text-white overflow-hidden" id="home">
+
+        {/* Particles Background - Absolute Full Coverage with lower z-index */}
         <div className="absolute inset-0 z-0">
-          <Particles_back /> 
+          <Particles_back />
         </div>
 
-        {/* Content Section */}
-        <div className="relative z-10 h-full">
-          {/* Resume Link */}
-          <div className="absolute top-5 right-5 pt-10 pr-10">
+        {/* Content Overlay - z-10 to stay above particles */}
+        <div className="relative z-10 h-full w-full flex flex-col justify-between p-8 sm:p-14">
+
+          {/* Top Right: Resume */}
+          <div className="flex justify-end pt-[50px]">
             <a
               href="/Sarath M.pdf"
               download="SarathM_Resume.pdf"
-              className="text-lg md:text-xl text-white px-4 py-2 rounded hover:bg-gray-600 transition"
+              className="text-white hover:text-green-400 font-medium text-lg border border-white hover:border-green-400 px-4 py-2 rounded transition-all duration-300"
             >
               Resume
             </a>
           </div>
 
-          {/* Main Content */}
-          <div className="flex flex-col justify-center items-start h-full px-8 sm:px-16 lg:px-32 space-y-6">
-            <h6 className="text-green-500 text-lg sm:text-xl animate-pulse">
+          {/* Center Left: Main Content */}
+          <div className="flex flex-col justify-center items-start max-w-4xl mt-[-50px] md:mt-0 pl-6 sm:pl-12 md:pl-24 lg:pl-32 pt-[100px]">
+            <h6 className="text-green-400 font-mono text-sm md:text-base mb-4 animate__animated animate__fadeInDown">
               hi! my name is
             </h6>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold">
+
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-gray-100 tracking-tight mb-4 animate__animated animate__fadeInUp animate__delay-1s">
               Sarath M
             </h1>
-            <p className="text-lg sm:text-xl max-w-md">
-              MERN Stack Developer | Passionate about building scalable web
-              applications
-            </p>
-            <button className="border-2 border-green-500 px-6 py-2 text-sm sm:text-base rounded hover:bg-green-500 hover:text-black transition">
-              About Me
-            </button>
+
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-400 animate__animated animate__fadeInUp animate__delay-1s min-h-[60px] md:min-h-[80px]">
+              I am a <Typewriter words={roles} />
+            </h2>
+
+            {/* CTA Button */}
+            <div className="mt-8 animate__animated animate__fadeInUp animate__delay-2s">
+              <a href="#about" className="px-6 py-3 border border-green-400 text-green-400 rounded-tl-[20px] rounded-br-[20px] hover:bg-green-400/10 transition-all duration-300 font-mono text-sm">
+                About Me
+              </a>
+            </div>
           </div>
 
-          {/* Bottom Section */}
-          <div className="absolute bottom-8 w-full flex justify-between px-8 sm:px-16 lg:px-">
-            {/* Say Hello Section */}
-            <a
-              href="mailto:sarathmullath2003@gmail.com"
-              className="text-lg font-semibold hover:underline pl-19 pt-10 "
-            >
-              <span className=" text-white text-3xl">Say Hello!</span>
-            </a>
+          {/* Bottom Row */}
+          <div className="flex justify-between items-end w-full pb-20">
 
-            {/* Icons Section */}
-            <div className="flex flex-col items-end space-y-4 pb-2">
-              <a
-                href="https://www.instagram.com/sarath_0z4?igsh=dnFyNHltbjRvNmR5"
-                className="hover:text-green-500 transition text-white"
-              >
-                <InstagramIcon fontSize="large" />
+            {/* Bottom Left: Say Hello */}
+            <div className="animate__animated animate__fadeInLeft animate__delay-2s">
+              <a href="mailto:sarathmullath2003@gmail.com" className="text-xl md:text-2xl font-bold hover:text-green-400 transition-colors">
+                Say Hello!
               </a>
-              <a
-                href="https://github.com/sarathm9656"
-                className="hover:text-green-500 transition  text-white"
-              >
-                <GitHubIcon fontSize="large" />
+            </div>
+
+            {/* Bottom Right: Social Icons (Vertical Stack) */}
+            <div className="flex flex-col gap-6 text-gray-400 animate__animated animate__fadeInRight animate__delay-2s">
+              <a href="https://www.instagram.com/sarath_0z4?igsh=dnFyNHltbjRvNmR5" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 hover:-translate-x-1 transition-all duration-300">
+                <InstagramIcon fontSize="medium" className="md:!text-[1.8rem]" />
               </a>
-              <a
-                href="http://t.me/SARATHMULLATH"
-                className="hover:text-green-500 transition  text-white"
-              >
-                <TelegramIcon fontSize="large" />
+              <a href="https://github.com/sarathm9656" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 hover:-translate-x-1 transition-all duration-300">
+                <GitHubIcon fontSize="medium" className="md:!text-[1.8rem]" />
               </a>
-              <a href="https://wa.me/qr/MRVSKRQHJZ2EC1" className="hover:text-green-500 transition  text-white">
-                <WhatsAppIcon fontSize="large" />
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 hover:-translate-x-1 transition-all duration-300">
+                <LinkedInIcon fontSize="medium" className="md:!text-[1.8rem]" />
+              </a>
+              <a href="mailto:sarathmullath2003@gmail.com" className="hover:text-green-500 hover:-translate-x-1 transition-all duration-300">
+                <EmailIcon fontSize="medium" className="md:!text-[1.8rem]" />
               </a>
             </div>
           </div>

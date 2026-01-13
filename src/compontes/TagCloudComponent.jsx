@@ -12,7 +12,7 @@ const TagCloudComponent = () => {
       'React', 'TagCloud', 'JavaScript',
       'CSS3', 'Gitbub', 'c',
       'HTML', 'Tailwind', 'Bootstrap',
-      'MongoDB', 'Node.js',
+      'MongoDB', 'Node.js','Express','Mongoose','Figma'
     ];
     const options = {
       radius: 200,

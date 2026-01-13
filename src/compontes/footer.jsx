@@ -1,14 +1,19 @@
+
 import React from 'react';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear(); // Get the current year dynamically
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className='h-9  flex justify-center a flex-col pt-9'>
-      <div><p>&copy; {currentYear} created by Sarath M.
-        
-         </p></div>
-         <div><span> All rights reserved. ❤️</span></div>
+    <footer className="bg-[#1a1a1a] text-gray-400 py-6 w-full">
+      <div className="flex flex-col justify-center items-center gap-2 text-sm md:text-base font-mono">
+        <p className="hover:text-green-500 transition-colors cursor-default">
+          Created by Sarath M.
+        </p>
+        <p>
+          &copy; {currentYear} All rights reserved. <span className="text-red-500">❤️</span>
+        </p>
+      </div>
     </footer>
   );
 };
